@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: books
+  labels:
+    app: books
+    project: booksapp
+spec:
+  selector:
+    app: books
+  clusterIP: None
+  ports:
+  - name: service
+    port: 7002
+

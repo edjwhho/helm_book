@@ -1,0 +1,40 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  annotations:
+    linkerd.io/inject: enabled
+  name: books
+  labels:
+    app: books
+    #project: booksapp
+    #app.kubernetes.io/part-of: booksapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: books
+      project: booksapp
+  template:
+    metadata:
+      labels:
+        app: books
+        project: booksapp
+    spec:
+      dnsPolicy: ClusterFirst
+      containers:
+      - name: service
+        image: buoyantio/booksapp:v0.0.3
+        env:
+        - name: DATABASE_URL
+          value: sqlite3:db/db.sqlite3
+        - name: AUTHORS_SITE
+          value: http://authors:7001
+        args: ["prod:books"]
+        readinessProbe:
+          httpGet:
+            path: /ping
+            port: 7002
+        ports:
+        - name: service
+          containerPort: 7002
+
