@@ -10,7 +10,7 @@ spec:
     app: webapp
   type: LoadBalancer
   ports:
-  {{- range untilStep ( int .Values.ports.start) ( int .Values.ports.end) 1 }}
+  {{- range untilStep ( int .Values.ports.start ) ( int .Values.ports.end ) 1 }}
   - name: service{{ . }}
     port: {{ . }}
   {{- end }}
